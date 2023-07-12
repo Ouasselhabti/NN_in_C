@@ -1,0 +1,51 @@
+#define NN_IMPLEM
+#include "nn_c.h"
+#include <time.h>
+#include <math.h>
+
+float sigmoidf(float x)
+{
+  return (1/(1+expf(-x)));
+}
+
+float xor_input[] = {0,0,0,1,1,0,1,1};
+float xor_output[] = {0,1,1,0};
+
+int main(void)
+{
+  srand((unsigned)time(0));
+  //INPUT
+  /* Mat in; in.rows = 4; in.cols = 2; */
+  /* in.mat = &xor_input[0]; */
+  /* size_t n = in.rows; */
+  /* //OUTPUT */
+  /* Mat out; out.rows = 4; out.cols = 1; */
+  /* out.mat = &xor_output[0]; */
+  /* srand((unsigned)time(0)); */
+  /* Mat W1 = alloc(2,2); */
+  /* Mat b1 = alloc(1,2); */
+  /* Mat W2 = alloc(2,1); */
+  /* Mat b2 = alloc(1,1); */
+
+  /* //Randomize  */
+  /* mat_rand(W1,0,1); mat_rand(b1,0,1); mat_rand(W2,0,1); */
+  /* Mat weights[] = {W1,W2}; */
+  /* Mat biases[] = {b1,b2}; */
+  /* float (*ptr[])(float) = {sigmoidf, sigmoidf}; */
+  /* //backpropagation */
+  /* float x = cost(in, 2, weights, biases, ptr, out); */
+  /* printf("The cost value is : %f\n -----------------\n", x);   */
+  /* PRINT_MAT(W1); */
+  /* finite_diff(1e-3, in, 2, weights, biases, ptr, out); */
+  /* PRINT_MAT(W1); */
+  /* x = cost(in, 2, weights, biases, ptr, out); */
+  /* printf("\n The new cost after backpropogation: %f \n ", x); */
+  Mat expected = alloc(2,1);
+  size_t layers_number = 3;
+  size_t layers_size[] = {2,2,1};
+  NN nn = NN_init(layers_number,layers_size, NULL);
+  NN grad = NN_init0(layers_number,layers_size);
+  NN_grad(nn,grad,expected, 1e-3);
+  NN_print(grad);
+  return 0;
+}
